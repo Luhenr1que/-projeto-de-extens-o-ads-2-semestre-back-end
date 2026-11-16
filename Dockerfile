@@ -5,4 +5,4 @@ WORKDIR /app
 COPY . /app
 RUN composer install --no-dev --optimize-autoloader
 RUN chmod -R 775 storage bootstrap/cache
-CMD cp -n .env.example .env || true && php artisan key:generate --force && touch database/database.sqlite && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+CMD cp -n .env.example .env || true && touch /app/database/database.sqlite && php artisan config:clear && php artisan key:generate --force && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
